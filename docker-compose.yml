@@ -1,0 +1,31 @@
+services:
+   dob-consumer:
+       container_name: dob-consumer
+       build:
+           context: ${PROJECT_ROOT}/consumer/.
+           dockerfile: ${PROJECT_ROOT}/consumer/Dockerfile
+       ports:
+           - 5000:5000
+       networks:
+           - app-network
+       depends_on:
+           - dob-storage
+   dob-producer:
+      container_name: dob-producer
+      build:
+          context: ${PROJECT_ROOT}/producer/.
+          dockerfile: ${PROJECT_ROOT}/producer/Dockerfile
+      networks:
+          - app-network
+   dob-storage:
+      container_name: dob-storage
+      build:
+          context: ${PROJECT_ROOT}/storage/.
+          dockerfile: ${PROJECT_ROOT}/storage/Dockerfile
+      environment:
+          MYSQL_ROOT_PASSWORD: "Exam-2021"
+      networks:
+          - app-network
+
+networks:
+    app-network:
